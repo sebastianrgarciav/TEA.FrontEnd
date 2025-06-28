@@ -623,7 +623,7 @@ const Users: React.FC = () => {
                   filterSelectedOptions
                   disabled={
                     selectedUser.role === 'Administrador' ||
-                    selectedUser.role === 'Coordinador General'
+                    selectedUser.role === 'Monitor'
                   }
                   renderInput={(params) => (
                     <TextField

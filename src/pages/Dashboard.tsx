@@ -60,10 +60,10 @@ const Dashboard: React.FC = () => {
   const role = sessionStorage.getItem('role') || '';
   const allIpress = IpressList;
   const userIpress =
-    sessionStorage.getItem('healthCenters')?.split('\n').map(c=>c.trim()).filter(c=>c) || [];
+    sessionStorage.getItem('ipress')?.split('\n').map(c=>c.trim()).filter(c=>c) || [];
 
   const [ipressListState] = useState<string[]>(
-    role === 'Administrador' || role === 'Coordinador General'
+    role === 'Administrador' || role === 'Monitor'
       ? allIpress : userIpress
   );
   const [selectedIpress, setSelectedIpress] = useState<string[]>(ipressListState);

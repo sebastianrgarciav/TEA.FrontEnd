@@ -99,6 +99,14 @@ const Children = () => {
   const autismoTestUrl = `${window.location.origin}/autismotest`;
   const dropdownRef = useRef<HTMLDivElement>(null);
 
+  // Obtener el rol del usuario desde sessionStorage
+  const userRole = sessionStorage.getItem('role') || '';
+
+  // Funciones para verificar permisos según el rol
+  const canExport = () => userRole === 'Administrador' || userRole === 'Monitor';
+  const canEdit = () => userRole === 'Administrador';
+  const canDelete = () => userRole === 'Administrador';
+
   useEffect(() => {
     fetchChildren();
     // eslint-disable-next-line
@@ -133,11 +141,19 @@ const Children = () => {
     setLoading(true);
     try {
       const userId = sessionStorage.getItem('userId');
+      
+      // Limpiar filtros vacíos
+      const cleanFilters = Object.fromEntries(
+        Object.entries(filters).filter(([_, value]) => 
+          value !== null && value !== undefined && value !== ''
+        )
+      );
+
       const res = await ChildrenService.getAllAutismoChildren({
         pageNumber: page + 1,
         pageSize: rowsPerPage,
         userId,
-        filters,
+        filters: cleanFilters,
         sortColumn,
         sortDirection,
       });
@@ -434,21 +450,23 @@ const Children = () => {
                 >
                   <span className="hidden sm:inline">Limpiar Filtros</span>
                 </Button>
-                <Button
-                  onClick={() => setExportModalOpen(true)}
-                  variant="contained"
-                  sx={{
-                    backgroundColor: '#28a745',
-                    '&:hover': { backgroundColor: '#218838' },
-                    textTransform: 'none',
-                    minWidth: 0,
-                    padding: '8px 16px',
-                  }}
-                  startIcon={<DownloadIcon />}
-                  className="flex-1 sm:flex-initial"
-                >
-                  <span className="hidden sm:inline">Exportar</span>
-                </Button>
+                {canExport() && (
+                  <Button
+                    onClick={() => setExportModalOpen(true)}
+                    variant="contained"
+                    sx={{
+                      backgroundColor: '#28a745',
+                      '&:hover': { backgroundColor: '#218838' },
+                      textTransform: 'none',
+                      minWidth: 0,
+                      padding: '8px 16px',
+                    }}
+                    startIcon={<DownloadIcon />}
+                    className="flex-1 sm:flex-initial"
+                  >
+                    <span className="hidden sm:inline">Exportar</span>
+                  </Button>
+                )}
                 <Button
                   onClick={() => setQrModalOpen(true)}
                   variant="contained"
@@ -506,12 +524,16 @@ const Children = () => {
                           open={Boolean(menuAnchorEl) && menuChildId === child.id}
                           onClose={handleMenuClose}
                         >
-                          <MenuItem onClick={() => { handleMenuClose(); handleEdit(child); }}>
-                            <EditIcon fontSize="small" sx={{ mr: 1 }} /> Editar
-                          </MenuItem>
-                          <MenuItem onClick={() => { handleMenuClose(); handleDelete(child.id); }}>
-                            <DeleteIcon fontSize="small" sx={{ mr: 1 }} /> Eliminar
-                          </MenuItem>
+                          {canEdit() && (
+                            <MenuItem onClick={() => { handleMenuClose(); handleEdit(child); }}>
+                              <EditIcon fontSize="small" sx={{ mr: 1 }} /> Editar
+                            </MenuItem>
+                          )}
+                          {canDelete() && (
+                            <MenuItem onClick={() => { handleMenuClose(); handleDelete(child.id); }}>
+                              <DeleteIcon fontSize="small" sx={{ mr: 1 }} /> Eliminar
+                            </MenuItem>
+                          )}
                           <MenuItem onClick={() => { handleMenuClose(); handleShowEvaluations(child); }}>
                             <VisibilityIcon fontSize="small" sx={{ mr: 1 }} /> Ver Evaluaciones
                           </MenuItem>

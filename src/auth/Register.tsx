@@ -104,20 +104,7 @@ const Register: React.FC = () => {
     }
 
     // Validar IPRESS según rol
-    if (role === 'Administrador' && ipress.length !== 1) {
-      Swal.fire({
-        title: 'Error',
-        text: 'Debe seleccionar exactamente un IPRESS',
-        icon: 'error',
-        confirmButtonText: 'OK'
-      });
-      return;
-    }
-
-    if (
-      (role === 'Colaborador' || role === 'Monitor') &&
-      ipress.length === 0
-    ) {
+    if (role === 'Colaborador' && ipress.length === 0) {
       Swal.fire({
         title: 'Error',
         text: 'Debe seleccionar al menos un IPRESS',
@@ -128,10 +115,9 @@ const Register: React.FC = () => {
     }
 
     try {
-      const ipressString =
-        role === 'Administrador'
-          ? ''
-          : ipress.map(center => `${center}`).join('\n');
+      const ipressString = role === 'Colaborador' 
+        ? ipress.map(center => `${center}`).join('\n')
+        : '';
 
       const response = await axiosInstance.post('/api/AutismoAuth/Register', {
         dni,
@@ -197,11 +183,7 @@ const Register: React.FC = () => {
       password === confirmPassword
     );
 
-    if (role === 'Administrador') {
-      return basicFieldsValid && ipress.length === 1;
-    }
-
-    if (role === 'Colaborador' || role === 'Monitor') {
+    if (role === 'Colaborador') {
       return basicFieldsValid && ipress.length > 0;
     }
 
@@ -213,9 +195,7 @@ const Register: React.FC = () => {
   };
 
   const toggleIpress = (center: string) => {
-    if (role === 'Administrador') {
-      setIpress([center]);
-    } else {
+    if (role === 'Colaborador') {
       if (ipress.includes(center)) {
         setIpress(ipress.filter(hc => hc !== center));
       } else {
@@ -239,7 +219,7 @@ const Register: React.FC = () => {
   };
 
   const shouldShowIpress = () => {
-    return !['Administrador'].includes(role);
+    return role === 'Colaborador';
   };
 
   return (
@@ -343,10 +323,7 @@ const Register: React.FC = () => {
               <div className="relative" ref={dropdownRef}>
                 <label className="block text-custom-blue text-sm font-bold mb-2">
                   IPRESS
-                  {role === 'Administrador' && <span className="text-red-500"> * (Seleccione 1)</span>}
-                  {(role === 'Colaborador' || role === 'Monitor') && (
-                    <span className="text-red-500"> * (Seleccione al menos 1)</span>
-                  )}
+                  <span className="text-red-500"> * (Seleccione al menos 1)</span>
                 </label>
                 <div className="relative">
                   <input
