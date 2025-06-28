@@ -3,8 +3,8 @@ import axios, { AxiosError } from 'axios';
 import { toast } from 'react-toastify';
 
 const instance = axios.create({
-  //baseURL: 'https://matapp.somee.com/', 
-  baseURL: 'https://localhost:7201/',
+  baseURL: 'https://matapp.somee.com/', 
+  //baseURL: 'https://localhost:7201/',
   headers: {
     'Content-Type': 'application/json',
   },
