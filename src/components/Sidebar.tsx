@@ -53,7 +53,7 @@ const Sidebar: React.FC = () => {
         className={`fixed top-0 left-0 bottom-0 z-50 w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}
       >
         <div className="flex items-center justify-center h-16 bg-custom-blue shadow-md">
-          <span className="text-xl font-bold text-white">Evaluación de Habilidades del Desarrollo Infantil en Niños (16 a 30 meses)</span>
+          <span className="text-xl font-bold text-white"></span>
         </div>
         <nav className="flex-1 px-2 py-4 space-y-1 overflow-y-auto">
           <Link
