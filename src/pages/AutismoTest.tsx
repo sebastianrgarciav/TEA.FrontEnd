@@ -109,7 +109,7 @@ const AutismoTest: React.FC = () => {
     }, 0);
 
     const edadMeses = calcularEdadMeses(childData.fechaNacimiento);
-    const edadValida = typeof edadMeses === 'number' && edadMeses >= 12 && edadMeses <= 30;
+    const edadValida = typeof edadMeses === 'number' && edadMeses >= 16 && edadMeses <= 30;
 
     const handleStartTest = () => {
         setShowPreview(false);
@@ -193,7 +193,7 @@ const AutismoTest: React.FC = () => {
                             fontSize: '2rem',
                         }}
                     >
-                        EVALUACIÓN DE LAS HABILIDADES DEL DESARROLLO EN NIÑOS DE 12 A 30 MESES DE EDAD
+                        EVALUACIÓN DE LAS HABILIDADES DEL DESARROLLO EN NIÑOS DE 16 A 30 MESES DE EDAD
                     </Typography>
                     <br/>
                     <Typography
@@ -275,7 +275,7 @@ const AutismoTest: React.FC = () => {
                             <TextField label="Edad (meses)" value={edadMeses} fullWidth disabled />
                             {!edadValida && childData.fechaNacimiento && (
                                 <span style={{ color: 'red', fontSize: 14 }}>
-                                    La edad del niño debe estar entre 12 y 30 meses para realizar el test.
+                                    La edad del niño debe estar entre 16 y 30 meses para realizar el test.
                                 </span>
                             )}
                             <Box display="flex" justifyContent="flex-end" mt={2}>

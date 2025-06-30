@@ -26,10 +26,17 @@ const Navbar: React.FC = () => {
     <nav className="fixed top-0 left-0 right-0 bg-custom-blue text-black shadow z-50">
       <div className="px-5">
         <div className="flex h-16 items-center">
-          <div className="text-white text-md md:text-xl font-bold ml-10">
-            TEA - Trastorno del Espectro Autista
+          <div className="flex-shrink-0 z-10">
           </div>
-          <div className="ml-auto relative">
+          {/* Texto SOLO para móvil */}
+          <div className="flex-grow text-white text-xs font-bold px-2 text-center pl-10 block md:hidden">
+            Evaluación de Habilidades del<br />Desarrollo Infantil en Niños (16 a 30 meses)
+          </div>
+          {/* Texto SOLO para escritorio */}
+          <div className="flex-grow text-white text-xl font-bold px-2 pl-10 text-left hidden md:block">
+            Evaluación de Habilidades del Desarrollo Infantil en Niños (16 a 30 meses)
+          </div>
+          <div className="flex-shrink-0 z-10 ml-auto relative">
             <button onClick={toggleMenu} className="focus:outline-none">
               <img src={logo} alt="Logo" className="h-10 w-10 md:h-11 w-12 rounded-full" />
             </button>
